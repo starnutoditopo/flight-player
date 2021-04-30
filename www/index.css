@@ -122,7 +122,7 @@
     height: 150px;
     margin-left: -75px;
     margin-top: -75px;
-    background-image: url('img/UltraLightAirplane3.png');
+    background-image: url('img/airplane.svg');
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -132,6 +132,9 @@
     top: 0px;
     bottom: 0px;
     width: 125px;
+}
+#panel-tilt {
+    left: -125px;
 }
 #panel-speed {
     left: 0px;

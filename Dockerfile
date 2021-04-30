@@ -13,7 +13,7 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 80
+EXPOSE 3000
 
 CMD [ "node", "server.js" ]
 
@@ -21,4 +21,6 @@ CMD [ "node", "server.js" ]
 # Build:
 # 	docker build . -t starnutoditopo/flight-player
 # Run:
-# 	docker run -p 3000:80 -d starnutoditopo/flight-player
+# 	docker run -it --init -p 3000:3000 --rm starnutoditopo/flight-player
+# Navigate with a browser to:
+#	http://localhost:3000/
