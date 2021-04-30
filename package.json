@@ -1,0 +1,23 @@
+{
+  "name": "flight-player",
+  "version": "1.0.0",
+  "description": "A basic flight player with four synchronized views.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/starnutoditopo/FlightPlayer.git"
+  },
+  "author": "Starnuto di topo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/starnutoditopo/FlightPlayer/issues"
+  },
+  "homepage": "https://github.com/starnutoditopo/FlightPlayer#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
