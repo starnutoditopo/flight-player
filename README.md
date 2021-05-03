@@ -2,7 +2,7 @@
 
 A basic flight player with four synchronized views.
 
-Initially cloned from [Flight Simulator](https://github.com/richiecarmichael/Esri-Flight-Simulator).
+Initially inspired by [Flight Simulator](https://github.com/richiecarmichael/Esri-Flight-Simulator), this project aims to reproduce a flight recorded in a .gpx file.
 
 #### Quick run from file system
 
