@@ -161,20 +161,21 @@ require([
 
                 const heading1 = closest.heading;
                 const heading2 = next.heading;
+                const heading = (heading1 + (heading2 - heading1) * k) % 360; //heading
                 return {
                     location: result,
-                    heading: heading1 + (heading2 - heading1) * k, //heading
+                    heading: heading,
                     speed: speed
                 };
             }
 
             loadGpx("Mix 17.gpx", function (rawPoints) {
-                // console.log(points);
-                // let s = "";
-                // points.forEach(p => s = s + `${p.time};${p.lon};${p.lat};${p.heading}\r\n`);
-                // console.log(s);
+                //  console.log(rawPoints);
+                //  let s = "";
+                //  rawPoints.forEach(p => s = s + `${p.time};${p.lon};${p.lat};${p.heading}\r\n`);
+                //  console.log(s);
 
-                var initialTime = null;
+                var previousActualTimestamp = null;
 
                 //timeDiff = points[1].time - points[0].time;
                 //console.log("timeDiff:", timeDiff);
@@ -195,7 +196,9 @@ require([
                 var deltaHeading = 0;
                 var tilt = 80;
                 var deltaTilt = 0;
-                var { location, heading, speed } = getLocationInfoAtTime(rawPoints, 0);
+                var virtualCurrentTimestamp = 0;
+                var virtualPreviousTimestamp = null;
+                var { location, heading, speed } = getLocationInfoAtTime(rawPoints, virtualCurrentTimestamp);
                 location.z += deltaAltitude;
 
                 // Initialize maps and views
@@ -242,10 +245,10 @@ require([
                 viewLeft.ui.components = [];
                 viewRight.ui.components = [];
 
-                var speedMultiplyFactor = 10;
+                var speedMultiplyFactor = 1;
 
-                function draw(time) {
-                    if (map.loaded && initialTime !== null) {
+                function draw(actualCurrentTimestamp) {
+                    if (map.loaded && previousActualTimestamp !== null) {
                         ////var h = viewMain.rotation;
                         //var t = time - lastTime; // ms
                         //var d = speed * t / 1000;
@@ -257,8 +260,13 @@ require([
                         //location.y = z.e(2);
                         //location.z = location.z;
 
-                        var t = time - initialTime; // ms
-                        var { location, heading, speed } = getLocationInfoAtTime(rawPoints, t * speedMultiplyFactor, deltaAltitude);
+                        const deltaActualTime = actualCurrentTimestamp - previousActualTimestamp; // ms
+                        const deltaVirtualTime = deltaActualTime * speedMultiplyFactor;
+                        virtualCurrentTimestamp = previousVirtualTimestamp + deltaVirtualTime;
+                        previousVirtualTimestamp = virtualCurrentTimestamp;
+                        previousActualTimestamp = actualCurrentTimestamp;
+                        var { location, heading, speed } = getLocationInfoAtTime(rawPoints, virtualCurrentTimestamp);
+                        
                         location.z += deltaAltitude;
 
                         viewMain.center = location;
@@ -288,7 +296,8 @@ require([
                         $('#dial-location-x').html(ConvertDDToDMS(geographic.x, true));
                         $('#dial-location-y').html(ConvertDDToDMS(geographic.y, false));
                     } else {
-                        initialTime = time;
+                        previousActualTimestamp = actualCurrentTimestamp;
+                        previousVirtualTimestamp = 0;
                     }
 
                     requestAnimationFrame(draw, location, speed, heading);
