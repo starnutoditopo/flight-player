@@ -4,6 +4,8 @@ A basic flight player with four synchronized views.
 
 Initially inspired by [Flight Simulator](https://github.com/richiecarmichael/Esri-Flight-Simulator), this project aims to reproduce a flight recorded in a .gpx file.
 
+**See the player in action [here](https://starnutoditopo.github.io/flight-player/www/index.html)!**
+
 #### Quick run from file system
 
 Ensure a directory exists to host Chrome data (eg.: C:\ChromeData), then, from the directory containing index.html, run Chrome with the following parameters:
